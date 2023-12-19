@@ -1,6 +1,6 @@
 import { async } from 'regenerator-runtime';
 import { API_URL, RES_PER_PAGE, KEY } from './config.js';
-import { AJAX } from './helper.js';
+import { getJSON, sendJSON } from './helper.js';
 export const state = {
   recipe: {},
   search: {
@@ -29,7 +29,7 @@ const createRecipeObject = function (data) {
 };
 export const loadRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}${id}?key=${KEY}`); //=const res = await fetch(`${API_URL}${id}`);const data = await res.json();//轉換成json
+    const data = await getJSON(`${API_URL}${id}?key=${KEY}`); //=const res = await fetch(`${API_URL}${id}`);const data = await res.json();//轉換成json
 
     const { recipe } = data.data;
 
@@ -56,7 +56,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
+    const data = await getJSON(`${API_URL}?search=${query}&key=${KEY}`);
     console.log(data);
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -134,7 +134,7 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
 
-    const data = await AJAX(
+    const data = await sendJSON(
       `${API_URL}?key=b71e31d0-7b7c-4779-bab1-4f386aa64f95
 
     `,
